@@ -1,0 +1,22 @@
+states=680; transitions=3456; tuple_and_bit_encodings=equal
+literal_arrays_n=1; examined=4096; admissible=680
+literal_arrays_n=2; examined=262144; admissible=3456
+source_examples=4; all_admissible=true
+OEIS_A185765_initial_terms_matched=18
+T^0Q(T)1: nonzero=680; sum=-23144; max_abs=9540
+T^1Q(T)1: nonzero=680; sum=27200; max_abs=23192
+T^2Q(T)1: nonzero=680; sum=-4160; max_abs=14932
+T^3Q(T)1: nonzero=680; sum=0; max_abs=10640
+T^4Q(T)1: nonzero=376; sum=0; max_abs=344
+T^5Q(T)1: nonzero=0; sum=0; max_abs=0
+scalar_recurrence_checked=13..200; residual_at_n12=-4160
+six_column_GF=8*z*N6/D6; coprime_mod3=true; minimal_eventual_order=9
+mod3_Euclidean_remainders=[[2, 0, 0, 1, 1, 2, 0, 2, 1], [2, 1, 0, 2, 2, 2, 1], [0, 2, 1, 1, 2, 1], [2, 1, 1, 1, 1], [1, 2, 2, 2], [2, 2], [2]]
+Barker_two_column_closed_form_exact_quadratic_arithmetic=1..30
+width=2; states=16; edges=40; extinction=1; scalar_boundaries=[0]; recurrence_start=3; Barker_GF=equal
+width=3; states=40; edges=120; extinction=2; scalar_boundaries=[0, 0]; recurrence_start=4; Barker_GF=equal
+width=4; states=104; edges=368; extinction=3; scalar_boundaries=[0, 0]; recurrence_start=7; Barker_GF=equal
+width=5; states=264; edges=1128; extinction=3; scalar_boundaries=[0]; recurrence_start=10; Barker_GF=equal
+OEIS_A185769_displayed_entries_matched=70; examples=7; symmetry_and_divisibility=equal
+scope=finite identities, polynomial arithmetic and counts; infinite implications are proved in note.tex
+ALL_CHECKS_OK

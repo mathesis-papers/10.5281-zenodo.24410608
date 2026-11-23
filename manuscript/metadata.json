@@ -1,0 +1,15 @@
+{
+  "id": "hardin185765",
+  "revision": 2,
+  "problem_ids": ["hardin185765", "hardin1857-traceavoid"],
+  "topic": "Hardin's trace-avoiding binary-array recurrences, Barker's generating functions, and the least eventual six-column recurrence order",
+  "title": "Hardin's six-column trace recurrence and Barker's generating functions",
+  "creators": [
+    {"name": "Haobo Ma", "affiliation": "ChronoAI Pte Ltd, Singapore"},
+    {"name": "Wenlin Zhang", "affiliation": "National University of Singapore; ChronoAI Pte Ltd, Singapore"}
+  ],
+  "abstract": "We prove the empirical recurrence in R. H. Hardin's OEIS entry A185765, revision 9, sole FORMULA field (October 3, 2025; submitted February 3, 2011). It counts labeled (n+1)-by-6 binary arrays whose contiguous 2-by-2 blocks have unequal traces at horizontal and vertical neighbors. A row-pair transfer operator reduces the all-length assertion to three exact finite identities. The recurrence holds for every n >= 13 and fails at n = 12, where its residual is -4160. Its reduced rational generating function proves that nine is the least possible eventual recurrence order over Q. The same method proves the smaller-width recurrences and Colin Barker's conjectural generating functions in A185761-A185764, including his two-column closed form. Transposition, divisibility by eight, and rationality at every fixed width give further consequences for Hardin's bivariate table A185769.",
+  "summary": "Exact finite transfer identities and written propagation prove the recurrences at widths two through six, Barker's four generating functions and his two-column closed form. At width six the stated recurrence starts at n = 13, has residual -4160 at n = 12, and has least eventual order nine over Q. The bivariate counts are symmetric, divisible by eight, and rational at each fixed width. The pinned Lean declarations cover the six-column literal-count bridge and all-length recurrence; the additional consequences have written proofs and the specified finite arithmetic checks.",
+  "license": "cc-by-4.0",
+  "evidence_url": "https://github.com/the-omega-institute/trureturing/blob/66c49bfe9a1295ceea872b6e6a1d8146fb351237/D5/S3/Combinatorics/TraceAvoidingArrays/HardinA185765Recurrence.lean"
+}

@@ -1,0 +1,416 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[hidelinks]{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\title{Hardin's six-column trace recurrence\\and Barker's generating functions}
+\author{Haobo Ma\\\small ChronoAI Pte Ltd, Singapore
+\and Wenlin Zhang\\\small National University of Singapore\\\small ChronoAI Pte Ltd, Singapore}
+\date{November 14, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove the empirical recurrence in R.\ H.\ Hardin's OEIS entry
+A185765, revision 9, sole FORMULA field (October 3, 2025; submitted
+February 3, 2011). It counts labeled $(n+1)\times6$ binary arrays whose
+contiguous $2\times2$ blocks have unequal traces at horizontal and vertical
+neighbors. A row-pair transfer operator reduces the all-length assertion to
+three exact finite identities. The recurrence holds for every $n\geq13$
+and fails at $n=12$, where its residual is $-4160$. Its reduced rational
+generating function proves that nine is the least possible eventual
+recurrence order over $\mathbb Q$. The same method proves the smaller-width
+recurrences and Colin Barker's conjectural generating functions in
+A185761--A185764, including his two-column closed form. Transposition,
+divisibility by eight, and rationality at every fixed width give further
+consequences for Hardin's bivariate table A185769.
+\end{abstract}
+
+\section{The counting question}
+Hardin's entry~\cite{hardin765} records an empirical order-nine recurrence
+for trace-avoiding arrays at every index beyond twelve. We establish
+that recurrence with its printed threshold and its least eventual order.
+The related entries~\cite{hardin761,hardin762,hardin763,hardin764} record
+smaller-width empirical recurrences and Barker's conjectural generating
+functions, added in February and April 2018. We prove these formulas by
+the same finite-state argument. Their attribution remains Hardin's for
+the counting sequences and empirical recurrences, and Barker's for the
+generating-function and closed-form conjectures.
+The finite-state transfer method is classical; see Stanley~\cite[Section~4.7]{stanley}.
+Here the specified recurrence polynomials follow from explicit finite
+identities and linear propagation.
+For $n\geq1$, let $a_n$ count matrices
+$A\in\{0,1\}^{(n+1)\times6}$ satisfying the following conditions.
+With rows numbered $0,\ldots,n$ and columns $0,\ldots,5$, set
+\[
+ t_{i,j}=A_{i,j}+A_{i+1,j+1}\quad(0\leq i<n,\ 0\leq j<5).
+\]
+Require $t_{i,j}\ne t_{i,j+1}$ whenever $j<4$, and
+$t_{i,j}\ne t_{i+1,j}$ whenever $i<n-1$.
+Thus the trace is the ordinary integer diagonal sum, not the sum of all
+four entries or addition modulo two. Boundaries are open, and arrays are
+not identified under symmetries.
+
+\begin{theorem}\label{thm:main}
+For every integer $n\geq13$,
+\begin{align}
+ a_n={}&a_{n-1}+30a_{n-2}+24a_{n-3}-95a_{n-4}-15a_{n-5}\notag\\
+       &+64a_{n-6}-116a_{n-7}+16a_{n-8}+16a_{n-9}.\label{eq:rec}
+\end{align}
+The difference between the left and right sides at $n=12$ is $-4160$.
+\end{theorem}
+
+\section{Arrays as walks}
+Write $R=\{0,1\}^6$ and, for $r,s\in R$, put
+$\tau_j(r,s)=r_j+s_{j+1}$ for $0\leq j<5$.
+The state set is
+\[
+ S=\{(r,s)\in R^2:\tau_j(r,s)\ne\tau_{j+1}(r,s)
+                         \text{ for }0\leq j<4\}.
+\]
+An edge $(r,s)\longrightarrow(s,t)$ exists precisely when $(s,t)\in S$
+and $\tau_j(r,s)\ne\tau_j(s,t)$ for every $0\leq j<5$.
+For a vector $v\in\mathbb Z^S$ define
+\[
+ (Tv)_{(r,s)}=\sum_{(r,s)\to(s,t)}v_{(s,t)},
+ \qquad \mathbf1=(1)_{s\in S}.
+\]
+There are $680$ states and $3456$ edges; these numbers are obtained by
+enumerating the $64^2$ row pairs and $64^3$ row triples.
+
+\begin{lemma}\label{lem:count}
+For every $n\geq1$, $a_n=\mathbf1^{\mathsf T}T^{n-1}\mathbf1$.
+\end{lemma}
+\begin{proof}
+An array with rows $r_0,\ldots,r_n$ determines the walk
+$(r_0,r_1),\ldots,(r_{n-1},r_n)$. Membership of each state in $S$
+is exactly the horizontal trace condition. Each successive edge is
+exactly the vertical trace condition between the two corresponding
+rows of blocks. Conversely, overlapping row pairs in such a walk
+reconstruct the unique array, so this correspondence is a bijection.
+The coordinate $(T^k\mathbf1)_{(r,s)}$ counts walks of $k$ edges
+starting at $(r,s)$: it is one at $k=0$, and the defining sum for $T$
+is the induction step. Summing over the first state with $k=n-1$
+proves the formula.
+\end{proof}
+
+\section{The finite identities and their propagation}
+Define
+\begin{align*}
+ Q(X)={}&X^9-X^8-30X^7-24X^6+95X^5+15X^4\\
+        &-64X^3+116X^2-16X-16,\qquad
+ w_k=T^kQ(T)\mathbf1.
+\end{align*}
+The finite identities needed below are
+\begin{equation}\label{eq:finite}
+ w_5=0,\qquad \mathbf1^{\mathsf T}w_3=0,\qquad
+ \mathbf1^{\mathsf T}w_4=0.
+\end{equation}
+Table~\ref{tab:finite} gives the full check's scalar summaries. In
+particular, the zero nonzero-coordinate count in its final row asserts
+the vector identity, not just cancellation of its coordinate sum.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrr}
+\toprule
+$k$ & Nonzero coordinates of $w_k$ & $\sum_{s\in S}(w_k)_s$
+    & $\max_{s\in S}|(w_k)_s|$\\
+\midrule
+0 & 680 & $-23144$ & 9540\\
+1 & 680 & 27200 & 23192\\
+2 & 680 & $-4160$ & 14932\\
+3 & 680 & 0 & 10640\\
+4 & 376 & 0 & 344\\
+5 & 0 & 0 & 0\\
+\bottomrule
+\end{tabular}
+\caption{Exact integer evaluation of the six residual vectors.}\label{tab:finite}
+\end{table}
+
+Here is a complete finite algorithm for~\eqref{eq:finite}. Order binary
+rows lexicographically and retain exactly the pairs in $S$. Construct
+each outgoing edge list by testing every $t\in R$. Starting with
+$v_0=\mathbf1$, calculate $v_{j+1}=Tv_j$ through $j=13$ and form
+\[
+ (w_k)_s=(v_{k+9})_s-\sum_{d=1}^9 c_d(v_{k+9-d})_s
+ \quad(0\leq k\leq5),
+\]
+where $(c_1,\ldots,c_9)=(1,30,24,-95,-15,64,-116,16,16)$.
+The supplied \texttt{verify.py} implements precisely these bounded
+loops with integer arithmetic. It also evaluates $Q(T)\mathbf1$ by
+Horner's rule and compares all coordinates with the expanded expression.
+An independent bit-row encoding checks every state and outgoing edge.
+Literal enumeration of all two-row and three-row arrays gives $680$
+and $3456$, respectively, and checks the indexing against the array
+definition. Thus~\eqref{eq:finite} is an exhaustive finite computation;
+the passage to all lengths is the following written argument.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Linearity gives $w_{k+1}=Tw_k$ for all $k\geq0$.
+Consequently $w_5=0$ implies $w_k=0$ for every $k\geq5$ by induction.
+Together with the two scalar equalities in~\eqref{eq:finite}, this gives
+$\mathbf1^{\mathsf T}w_k=0$ for all $k\geq3$.
+For $n\geq13$, put $k=n-10\geq3$. Lemma~\ref{lem:count} then gives
+\[
+ 0=\mathbf1^{\mathsf T}w_k
+   =a_{k+10}-\sum_{d=1}^9c_da_{k+10-d},
+\]
+which is~\eqref{eq:rec}. At $n=12$ the same identity for the residual
+uses $k=2$, whose sum in Table~\ref{tab:finite} is $-4160$.
+\end{proof}
+
+The first twelve values, sufficient to start the recurrence at $n=13$, are
+\begin{gather*}
+680,\ 3456,\ 19992,\ 118248,\ 725352,\ 4430912,\\
+27172072,\ 166155112,\ 1017804600,\ 6228062600,\\
+38135220896,\ 233413737792.
+\end{gather*}
+Forward walk counts agree with all $200$ terms of Hardin's linked
+table~\cite{hardin765}. This agreement is a finite comparison; the
+all-length conclusion follows from~\eqref{eq:finite} and the proof above.
+
+\section{A rational generating function and least eventual order}
+\begin{corollary}\label{cor:minimal}
+Let $F_6(z)=\sum_{n\geq1}a_nz^n$ and
+$D_6(z)=1-z-30z^2-24z^3+95z^4+15z^5-64z^6+116z^7-16z^8-16z^9$.
+Then
+\begin{equation}\label{eq:gf6}
+ F_6(z)=\frac{8zN_6(z)}{D_6(z)},
+\end{equation}
+where
+\begin{align*}
+N_6(z)={}&85+347z-483z^2-2718z^3-1375z^4+2104z^5\\
+ &+6276z^6+4796z^7-7734z^8-2893z^9+3400z^{10}-520z^{11}.
+\end{align*}
+No homogeneous constant-coefficient recurrence over $\mathbb Q$ of
+order less than nine holds for all sufficiently large $n$.
+\end{corollary}
+\begin{proof}
+Multiplying the first twelve terms by $D_6$ gives $8zN_6$;
+all coefficients from degree thirteen onward vanish by
+Theorem~\ref{thm:main}. This proves~\eqref{eq:gf6} as a formal power-series
+identity. The Euclidean algorithm applied to $N_6,D_6$ modulo $3$ gives
+successive nonzero remainder degrees $8,6,5,4,3,1,0$, ending in the
+constant $2$. Explicitly, their coefficient lists in increasing degree are
+\[
+\begin{gathered}
+(2,0,0,1,1,2,0,2,1),\quad(2,1,0,2,2,2,1),\\
+(0,2,1,1,2,1),\quad(2,1,1,1,1),\quad(1,2,2,2),\quad(2,2),\quad(2).
+\end{gathered}
+\]
+Both leading coefficients are nonzero modulo $3$. By Gauss's lemma a
+nonconstant common factor over $\mathbb Q$ would therefore remain a
+nonconstant common factor modulo $3$, a contradiction. Also $D_6(0)=1$,
+so $8zN_6$ and $D_6$ are coprime over $\mathbb Q$.
+An eventual recurrence with denominator polynomial $E(z)$ would make
+$E(z)F_6(z)$ a polynomial. Coprimality forces $D_6\mid E$, hence
+$\deg E\geq9$. Theorem~\ref{thm:main} attains this bound.
+\end{proof}
+
+\section{Smaller widths and Barker's conjectures}
+For $m\geq2$ let $a^{(m)}_n$ count the same arrays with $m$ columns;
+in particular $a^{(6)}_n=a_n$. Define $S_m,T_m$ exactly as in Section~2,
+using binary rows of length $m$ and $m-1$ traces. The same bijection gives
+$a^{(m)}_n=\mathbf1^{\mathsf T}T_m^{n-1}\mathbf1$.
+
+\begin{corollary}\label{cor:siblings}
+For each row of Table~\ref{tab:siblings},
+\[
+ a^{(m)}_n=\sum_{j=1}^{d_m}c_j a^{(m)}_{n-j}\quad(n\geq s_m),
+ \qquad
+ \sum_{n\geq1}a^{(m)}_nz^n=\frac{8zN_m(z)}{1-\sum_{j=1}^{d_m}c_jz^j}.
+\]
+The numerators are
+\begin{align*}
+ N_2&=2+3z, &N_3&=5+10z+z^2,\\
+ N_4&=13+33z-16z^3+7z^4-z^5,\\
+ N_5&=33+108z-43z^2-249z^3-69z^4+5z^5+43z^6+81z^7+18z^8.
+\end{align*}
+These are Barker's formulas in A185761--A185764~\cite{hardin761,hardin762,hardin763,hardin764}.
+\end{corollary}
+\begin{table}[ht]
+\centering\small
+\begin{tabular}{rrrrlrr}
+\toprule
+$m$ & $|S_m|$ & Edges & $d_m$ & $(c_1,\ldots,c_{d_m})$ & $s_m$ & $h_m$\\
+\midrule
+2 & 16 & 40 & 2 & $(1,4)$ & 3 & 1\\
+3 & 40 & 120 & 3 & $(1,6,1)$ & 4 & 2\\
+4 & 104 & 368 & 5 & $(1,10,3,-5,1)$ & 7 & 3\\
+5 & 264 & 1128 & 7 & $(1,17,9,-22,-1,1,-6)$ & 10 & 3\\
+\bottomrule
+\end{tabular}
+\caption{Smaller-width recurrences and vector extinction exponents.}\label{tab:siblings}
+\end{table}
+\begin{proof}
+Put $Q_m(X)=X^{d_m}-\sum_jc_jX^{d_m-j}$ and
+$w^{(m)}_k=T_m^kQ_m(T_m)\mathbf1$.
+The same exhaustive algorithm as in Section~3 gives
+$w^{(m)}_{h_m}=0$. The additional scalar identities
+$\mathbf1^{\mathsf T}w^{(m)}_k=0$ are needed at
+$k=0$ for $m=2$; $k=0,1$ for $m=3$; $k=1,2$ for $m=4$; and $k=2$
+for $m=5$. These are exact finite identities in the displayed state spaces,
+reproduced by \texttt{verify.py}. For $k\geq h_m$, vector vanishing
+propagates under $T_m$. Setting $n=k+d_m+1$ proves each recurrence
+at every $n\geq s_m$. Multiplication by its displayed denominator then
+leaves only degrees below $s_m$; exact counts at these initial indices
+give $8zN_m$ and prove each generating function.
+\end{proof}
+
+\begin{corollary}\label{cor:closed}
+For $n\geq1$, with $r_\pm=(1\pm\sqrt{17})/2$,
+\[
+ a^{(2)}_n=
+ \frac{(-13+3\sqrt{17})r_-^n+(13+3\sqrt{17})r_+^n}{\sqrt{17}}.
+\]
+\end{corollary}
+\begin{proof}
+Both $r_\pm$ satisfy $r^2=r+4$, so the displayed expression satisfies
+the two-column recurrence. Its values at $n=1,2$ are $16,40$, respectively,
+the counts from Table~\ref{tab:siblings}. Induction proves equality
+with $a^{(2)}_n$ for all $n\geq1$. This is Barker's closed form in
+the FORMULA field of A185761, February 22, 2018~\cite{hardin761}.
+\end{proof}
+
+\section{The cross-referenced bivariate table}
+Let $b_{n,k}$ count admissible $(n+1)\times(k+1)$ arrays under the same
+trace rule; this is Hardin's A185769~\cite{hardin769}.
+\begin{corollary}\label{cor:transpose}
+For all $n,k\geq1$, $b_{n,k}=b_{k,n}$. In particular,
+$b_{n,5}=b_{5,n}=a_n$, so both the fifth column and fifth row of
+A185769 satisfy~\eqref{eq:rec}, with the varying index at least $13$.
+\end{corollary}
+\begin{proof}
+Transposition sends a block at $(i,j)$ to the block at $(j,i)$ and
+preserves its diagonal sum. It exchanges horizontal and vertical
+adjacency, so it is a bijection between the two sets of admissible
+arrays. The six-column specialization is $k=5$, giving the result.
+\end{proof}
+
+\begin{corollary}\label{cor:general}
+For all $n,k\geq1$, $8\mid b_{n,k}$. For each fixed $k\geq1$,
+the generating function of $b_{n,k}$ in $n$ is rational:
+\[
+ \sum_{n\geq1}b_{n,k}z^n
+ =z\mathbf1^{\mathsf T}(I-zT_{k+1})^{-1}\mathbf1.
+\]
+Consequently every fixed column, and by transposition every fixed row,
+satisfies some eventual homogeneous constant-coefficient recurrence.
+\end{corollary}
+\begin{proof}
+The top-right and bottom-left entries of the array occur in no block
+trace, giving four free choices. Complementing all remaining entries
+sends every block trace $t$ to $2-t$, so it pairs admissible assignments
+of the remaining entries without fixed points. There is at least one
+remaining entry for $n,k\geq1$; hence the total is divisible by eight.
+For rationality, sum the array--walk identity over $n\geq1$ and use
+$\sum_{j\geq0}z^jT_{k+1}^j=(I-zT_{k+1})^{-1}$ as a formal matrix
+power series. The adjugate formula makes each entry rational, since
+$\det(I-zT_{k+1})$ has constant term $1$. Multiplying by this determinant
+gives an eventual recurrence. Transposition proves the row statement.
+\end{proof}
+
+\section{Source coverage and verification}
+\noindent
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.34\linewidth}>{\raggedright\arraybackslash}p{0.58\linewidth}}
+\toprule
+Source item & Coverage\\
+\midrule
+A185765, revision 9, sole FORMULA & Proved for every $n>12$ by Theorem~\ref{thm:main}.\\
+A185765, COMMENT & Its identification with column five of A185769
+follows from the definitions.\\
+A185765, four examples and term table & Four examples satisfy the rule;
+all $200$ tabulated terms agree with exact walk counts.\\
+A185761, revision 8, FORMULA & Hardin's recurrence and Barker's generating
+function and closed form proved by Corollaries~\ref{cor:siblings}--\ref{cor:closed}.\\
+A185762--A185764, revisions 9, 9, 10, FORMULA & Hardin's recurrences and
+Barker's generating functions proved by Corollary~\ref{cor:siblings}.\\
+A185769, revision 9, COMMENTS and examples & All 70 displayed counts
+and seven examples checked; symmetry proved by Corollary~\ref{cor:transpose}.\\
+Least eventual order nine; divisibility; fixed-width rationality & Not posed
+in these entries; proved by Corollaries~\ref{cor:minimal} and~\ref{cor:general}.\\
+Extension to $n=12$ & Not asserted in the source; fails with residual $-4160$.\\
+Larger-width specific formulas, e.g.\ \href{https://oeis.org/A185766}{A185766}
+and \href{https://oeis.org/A185768}{A185768} & Not covered. General rationality
+does not establish their particular coefficients or thresholds.\\
+\bottomrule
+\end{tabular}
+
+
+\paragraph{Verification and availability.}
+The array--walk bijection, propagation, minimal-order argument and
+corollaries have written proofs above. Python 3's standard-library
+\texttt{verify.py} reproduces the finite vector and scalar identities,
+generating-function coefficients and polynomial remainder lists.
+It also compares all $200$ A185765 terms with the linked data when
+that file is supplied, and checks all $70$ displayed A185769 counts.
+
+For six columns the pinned Lean file
+\href{https://github.com/the-omega-institute/trureturing/blob/66c49bfe9a1295ceea872b6e6a1d8146fb351237/D5/S3/Combinatorics/TraceAvoidingArrays/HardinA185765Transfer.lean}{\texttt{HardinA185765Transfer.lean}}
+contains \texttt{counting\_bridge}: the literal natural-number array
+cardinality at $n=k+1$, embedded in $\mathbb Z$, equals the sum of its
+continuation counts $u_k$ over all $64^2$ binary row pairs. Pairs outside
+$S$ have zero continuation count. The file
+\href{https://github.com/the-omega-institute/trureturing/blob/66c49bfe9a1295ceea872b6e6a1d8146fb351237/D5/S3/Combinatorics/TraceAvoidingArrays/HardinA185765Recurrence.lean}{\texttt{HardinA185765Recurrence.lean}}
+contains \texttt{finite\_certificate}, establishing the vector identity
+at exponent five and scalar identities at exponents three and four,
+and \texttt{result}, giving~\eqref{eq:rec} for every $n\geq13$.
+Both namespaces start with
+\texttt{D5.S3.Combinatorics.}\allowbreak\texttt{TraceAvoidingArrays}.
+These declarations cover the six-column counting bridge and recurrence;
+the generating functions, minimal order, smaller-width corollaries,
+transposition and divisibility are the written arguments and finite
+identities specified above.
+
+\clearpage
+\begin{thebibliography}{7}
+\bibitem{hardin761}
+R.\ H.\ Hardin, \emph{Number of $(n+1)\times2$ binary arrays with no
+$2\times2$ subblock trace equal to any horizontal or vertical neighbor
+$2\times2$ subblock trace}, OEIS A185761, February 3, 2011;
+revision 8, February 22, 2018. FORMULA: generating-function and
+closed-form conjectures by Colin Barker, February 22, 2018.
+\url{https://oeis.org/A185761}.
+\bibitem{hardin762}
+R.\ H.\ Hardin, \emph{Number of $(n+1)\times3$ binary arrays with no
+$2\times2$ subblock trace equal to any horizontal or vertical neighbor
+$2\times2$ subblock trace}, OEIS A185762, February 3, 2011;
+revision 9, April 16, 2018. FORMULA: empirical generating function
+by Colin Barker, April 16, 2018. \url{https://oeis.org/A185762}.
+\bibitem{hardin763}
+R.\ H.\ Hardin, \emph{Number of $(n+1)\times4$ binary arrays with no
+$2\times2$ subblock trace equal to any horizontal or vertical neighbor
+$2\times2$ subblock trace}, OEIS A185763, February 3, 2011;
+revision 9, April 16, 2018. FORMULA: empirical generating function
+by Colin Barker, April 16, 2018. \url{https://oeis.org/A185763}.
+\bibitem{hardin764}
+R.\ H.\ Hardin, \emph{Number of $(n+1)\times5$ binary arrays with no
+$2\times2$ subblock trace equal to any horizontal or vertical neighbor
+$2\times2$ subblock trace}, OEIS A185764, February 3, 2011;
+revision 10, April 16, 2018. FORMULA: empirical generating function
+by Colin Barker, April 16, 2018. \url{https://oeis.org/A185764}.
+\bibitem{hardin765}
+R.\ H.\ Hardin, \emph{Number of $(n+1)\times6$ binary arrays with no
+$2\times2$ subblock trace equal to any horizontal or vertical neighbor
+$2\times2$ subblock trace}, OEIS A185765, submitted February 3, 2011,
+revision 9, October 3, 2025. \url{https://oeis.org/A185765}.
+Term table: \url{https://oeis.org/A185765/b185765.txt}.
+\bibitem{hardin769}
+R.\ H.\ Hardin, \emph{$T(n,k)$: number of $(n+1)\times(k+1)$ binary
+arrays with no $2\times2$ subblock trace equal to any horizontal or vertical
+neighbor $2\times2$ subblock trace},
+OEIS A185769, submitted February 3, 2011, revision 9, October 3, 2025.
+\url{https://oeis.org/A185769}.
+\bibitem{stanley}
+R.\ P.\ Stanley, \emph{Enumerative Combinatorics}, Volume~1, second edition,
+Cambridge University Press, 2011, Section~4.7, ``The Transfer-Matrix Method.''
+Author's book page: \url{https://math.mit.edu/~rstan/ec/ec1/}.
+\end{thebibliography}
+\smallskip
+\noindent\small \copyright\ 2026 Haobo Ma and Wenlin Zhang.
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+\end{document}
